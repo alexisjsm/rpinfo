@@ -2,19 +2,21 @@
     <div class = "info_disk">
       <v-card>
         <v-container>
-          <v-row>
+          <v-row  align-content="center" justify="center">
             <v-col>
-                  <v-select label="Selecciona disco" name="disco" id="disco" v-model="selectedDisk"  :items="disk_list">
+                  <v-select label="Selecciona disco" v-model="selectedDisk"  :items="disk_list" item-text="device" item-value="mountpoint">
                   </v-select>
               </v-col>
           </v-row>
 
-          <v-row>
-              <v-col v-for="(disco,key) in disk_info_space" :key="key">
-                  <v-card-title>{{key}}</v-card-title>
-                  <card-text>
-                      {{disco}}
-                  </card-text>
+          <v-row align-content="center" justify="center">
+              <v-col v-for="(disco,key) in disk_info_space" :key="key" cols="auto">
+                  <v-card-title>
+                     <h3 class="title d-inline-block"> {{key}} </h3>
+                    </v-card-title>
+                  <v-card-text>
+                     <p> {{disco}} </p>
+                  </v-card-text>
               </v-col>
           </v-row>
         </v-container>
@@ -24,6 +26,8 @@
 <script>
 import Axios from 'axios'
 export default {
+  name: 'InfoDisk',
+
   data () {
     return {
       disk_list: null,
@@ -35,7 +39,7 @@ export default {
     selectedDisk (newDisk, oldDisk) {
       console.log(oldDisk)
       console.log(newDisk)
-      this.get_SpaceDisk(newDisk)
+      this.get_SpaceDisk()
     }
   },
   methods: {
@@ -45,9 +49,11 @@ export default {
         .then(Response => (this.disk_list = Response.data))
         .catch(error => console.log(error))
     },
-    get_SpaceDisk (disk) {
+    get_SpaceDisk () {
       Axios
-        .get('http://localhost:5000/api/v1/info_space_disk/' + disk)
+        .post('http://localhost:5000/api/v1/info_space_disk/disk', {
+          path: this.selectedDisk
+        })
         .then(Response => (this.disk_info_space = Response.data))
         .catch(error => console.log(error))
     }

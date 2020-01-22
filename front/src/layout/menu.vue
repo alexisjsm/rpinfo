@@ -5,6 +5,6 @@
         flat
         dark>
 
-        <v-toolbar-title> Raspinfo </v-toolbar-title>
+        <v-toolbar-title> Rpinfo </v-toolbar-title>
 </v-app-bar>
 </template>

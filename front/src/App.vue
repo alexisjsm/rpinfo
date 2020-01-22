@@ -1,17 +1,19 @@
 <template>
 <v-app >
-  <v-container fluid>
-    <v-row>
-      <v-col>
-        <view-menu> </view-menu>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <view-main></view-main>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-content>
+    <v-container>
+      <v-row>
+        <v-col>
+          <view-menu> </view-menu>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <view-main></view-main>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-content>
 </v-app>
 </template>
 
