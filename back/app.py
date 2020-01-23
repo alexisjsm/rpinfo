@@ -1,6 +1,5 @@
 from flask import Flask, jsonify,request
 from flask_cors import CORS
-
 import platform, os, getpass, psutil, math, re
 
 app = Flask(__name__)
@@ -46,14 +45,18 @@ def convert(Byte):
     return str(round(Byte / math.pow(n,i),2)) + ' ' + size[i]
 
 @app.route('/api/v1/cpu_info')
+    
 def cpu_info():
-    cpuName  = platform.processor()
-    cpuLogic = psutil.cpu_count()
-    cpuPhysical = psutil.cpu_count( logical=False)
-
-    cpuInfo = [cpuName , cpuLogic, cpuPhysical]
-
-    return jsonify(cpuInfo)
+    f = open("/proc/cpuinfo","r")
+    text = (f.readlines())
+    data = {}
+    
+    for i in text:
+        spt = i.strip().split(":")
+        data[spt[0]] = spt[-1]      
+    
+    f.close()
+    return jsonify(data)
 
     
 
