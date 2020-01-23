@@ -1,6 +1,7 @@
 from flask import Flask, jsonify,request
 from flask_cors import CORS
-import platform, os, getpass, psutil, math, re
+from cpuinfo import get_cpu_info
+import platform, os, getpass, psutil, math, re, distro
 
 app = Flask(__name__)
 
@@ -10,7 +11,14 @@ cors = CORS(app, resource = {r"/api/*":{"origins": "*"}})
 
 @app.route('/api/v1/info_system')
 def info_system():
-    data = os.uname()
+    system = platform.system()
+    getdist = distro.linux_distribution()
+    dist = " ".join(getdist)
+
+    release = platform.release()
+    nameMachine = platform.node()
+    arch = platform.machine()
+    data = [system,nameMachine,release,dist,arch]
     return jsonify(data)
 
 @app.route('/api/v1/info_space_disk/')
@@ -45,18 +53,25 @@ def convert(Byte):
     return str(round(Byte / math.pow(n,i),2)) + ' ' + size[i]
 
 @app.route('/api/v1/cpu_info')
-    
 def cpu_info():
-    f = open("/proc/cpuinfo","r")
-    text = (f.readlines())
-    data = {}
-    
-    for i in text:
-        spt = i.strip().split(":")
-        data[spt[0]] = spt[-1]      
-    
-    f.close()
+    cpuinfo = get_cpu_info()
+    cpuphysical = psutil.cpu_count(logical=False)
+    data = [ cpuinfo['brand'], cpuinfo['count'], cpuphysical]
+
     return jsonify(data)
+
+
+# def cpu_info():
+#     f = open("/proc/cpuinfo","r")
+#     text = (f.readlines())
+#     data = {}
+    
+#     for i in text:
+#         spt = i.strip().split(":")
+#         data[spt[0]] = spt[-1]      
+    
+#     f.close()
+#     return jsonify(data)
 
     
 

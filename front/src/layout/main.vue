@@ -2,20 +2,19 @@
     <v-content>
         <v-container>
             <v-row>
-                <v-col cols="auto">
+                <v-col >
                     <system-info></system-info>
                 </v-col>
             </v-row>
             <v-row>
-                <v-col lg="4" cols="auto">
+                <v-col lg="4">
                     <info-disk></info-disk>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col lg="4" cols="auto">
+                <v-col>
                     <cpu-info></cpu-info>
                 </v-col>
             </v-row>
+
         </v-container>
     </v-content>
 
