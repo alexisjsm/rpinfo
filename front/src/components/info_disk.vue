@@ -39,27 +39,29 @@ export default {
     selectedDisk (newDisk, oldDisk) {
       console.log(oldDisk)
       console.log(newDisk)
-      this.get_SpaceDisk()
+      this.get_DiskInfo()
     }
   },
   methods: {
-    get_DiskList () {
-      Axios
+    async get_DiskList () {
+      const disklist = await Axios
         .get('http://localhost:5000/api/v1/info_space_disk/')
         .then(Response => (this.disk_list = Response.data))
         .catch(error => console.log(error))
+      return disklist
     },
-    get_SpaceDisk () {
-      Axios
+    async get_DiskInfo () {
+      const disk = await Axios
         .post('http://localhost:5000/api/v1/info_space_disk/disk', {
           path: this.selectedDisk
         })
         .then(Response => (this.disk_info_space = Response.data))
         .catch(error => console.log(error))
+      return disk
     }
   },
 
-  created () {
+  updated () {
     this.get_DiskList()
   }
 }
