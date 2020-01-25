@@ -21,7 +21,7 @@ def info_system():
     data = [system,nameMachine,release,dist,arch]
     return jsonify(data)
 
-@app.route('/api/v1/info_space_disk/')
+@app.route('/api/v1/info_space_disk/', methods=['POST'])
 def info_get_diskAll():
     disklist = []
     regx = re.compile("^/dev/sd.[1-9]")
@@ -55,26 +55,21 @@ def convert(Byte):
 @app.route('/api/v1/cpu_info')
 def cpu_info():
     cpuinfo = get_cpu_info()
-    cpuphysical = psutil.cpu_count(logical=False)
+    cpuphysical = cpuinfo['count']/2
     data = [ cpuinfo['brand'], cpuinfo['count'], cpuphysical]
 
     return jsonify(data)
 
+@app.route('/api/v1/cpu_percent', methods=['POST'])
+def cpu_percent():
+    cpuPercent = [ psutil.cpu_percent(interval=1) ]
+    return jsonify(cpuPercent)
 
-# def cpu_info():
-#     f = open("/proc/cpuinfo","r")
-#     text = (f.readlines())
-#     data = {}
-    
-#     for i in text:
-#         spt = i.strip().split(":")
-#         data[spt[0]] = spt[-1]      
-    
-#     f.close()
-#     return jsonify(data)
-
-    
-
+@app.route('/api/v1/cpu_frequent', methods=['POST'])
+def cpu_frequent ():
+    cpuFrequent = psutil.cpu_freq()
+    return jsonify(cpuFrequent)
+  
 if __name__ == '__main__':
-    app.run(debug = True) 
+    app.run(debug=True) 
 

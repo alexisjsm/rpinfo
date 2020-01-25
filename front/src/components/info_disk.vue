@@ -4,7 +4,7 @@
         <v-container>
           <v-row  align-content="center" justify="center">
             <v-col>
-                  <v-select label="Selecciona disco" v-model="selectedDisk"  :items="disk_list" item-text="device" item-value="mountpoint">
+                  <v-select label="Selecciona disco"  v-model="selectedDisk"  :items="disk_list" item-text="device" item-value="mountpoint">
                   </v-select>
               </v-col>
           </v-row>
@@ -36,32 +36,30 @@ export default {
     }
   },
   watch: {
-    selectedDisk (newDisk, oldDisk) {
-      console.log(oldDisk)
-      console.log(newDisk)
+    selectedDisk () {
       this.get_DiskInfo()
     }
   },
   methods: {
     async get_DiskList () {
       const disklist = await Axios
-        .get('http://localhost:5000/api/v1/info_space_disk/')
+        .post('http://localhost:5000/api/v1/info_space_disk/', { timeout: 1 })
         .then(Response => (this.disk_list = Response.data))
         .catch(error => console.log(error))
       return disklist
     },
     async get_DiskInfo () {
       const disk = await Axios
-        .post('http://localhost:5000/api/v1/info_space_disk/disk', {
-          path: this.selectedDisk
-        })
+        .post('http://localhost:5000/api/v1/info_space_disk/disk',
+          {
+            path: this.selectedDisk
+          })
         .then(Response => (this.disk_info_space = Response.data))
         .catch(error => console.log(error))
       return disk
     }
   },
-
-  updated () {
+  created () {
     this.get_DiskList()
   }
 }

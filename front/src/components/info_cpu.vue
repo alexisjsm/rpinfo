@@ -12,6 +12,24 @@
                 </v-card-text>
             </v-col>
           </v-row>
+          <v-row align-content="center" justify="center">
+            <v-col cols="auto">
+              <v-card-title>
+                <h3 class="title"> CPU % </h3>
+                </v-card-title>
+                <v-card-text>
+                  <p>{{cpu_percent[0]}}</p>
+                </v-card-text>
+              </v-col>
+              <v-col v-for="(freq, name ) in cpu_frequent" :key="name" cols="auto">
+                <v-card-title>
+                <h3 class="title"> {{cpuFreqName[name]}}</h3>
+                </v-card-title>
+                <v-card-text>
+                  <p>{{freq}}</p>
+                </v-card-text>
+              </v-col>
+            </v-row>
         </v-container>
       </v-card>
     </div>
@@ -21,8 +39,11 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      cpu_info: 'null',
-      infoName: ['Procesador', 'CPU Logico', 'CPU Fisico']
+      cpu_info: null,
+      infoName: ['Procesador', 'CPU Logico', 'CPU Fisico'],
+      cpu_percent: '',
+      cpu_frequent: '',
+      cpuFreqName: ['Actual', 'Min', 'Max']
 
     }
   },
@@ -32,11 +53,33 @@ export default {
         .get('http://localhost:5000/api/v1/cpu_info')
         .then(Response => (this.cpu_info = Response.data))
         .catch(error => (console.log(error)))
+    },
+
+    async get_cpuPercent () {
+      const cpuPerc = axios
+        .post('http://localhost:5000/api/v1/cpu_percent', { timeout: 1 })
+        .then(Response => (this.cpu_percent = Response.data))
+        .catch(error => (console.log(error)))
+      return cpuPerc
+    },
+
+    async get_cpuFrequent () {
+      const cpuFreq = axios
+        .post('http://localhost:5000/api/v1/cpu_frequent', { timeout: 1 })
+        .then(Response => (this.cpu_frequent = Response.data))
+        .catch(error => (console.log(error)))
+      return cpuFreq
     }
   },
-
   created () {
     this.get_cpuInfo()
+    this.get_cpuPercent()
+    this.get_cpuFrequent()
+  },
+  beforeUpdated () {
+    this.get_cpuPercent()
+    this.get_cpuFrequent()
   }
+
 }
 </script>

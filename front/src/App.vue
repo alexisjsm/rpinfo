@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import ViewMenu from './layout/menu.vue'
-import ViewMain from './layout/main.vue'
+import ViewMenu from './views/menu.vue'
+import ViewMain from './views/main.vue'
 export default {
 
   components: {
