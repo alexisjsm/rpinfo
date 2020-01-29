@@ -1,9 +1,13 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
 import platform, os, getpass, psutil, math, re, distro
 
-app = Flask(__name__)
+app = Flask(__name__,
+           static_folder = '../front/dist/static',
+            template_folder = '../front/dist/'
+           )
+
 
 app.config['JSON_SORT_KEYS'] = False
 
@@ -55,7 +59,7 @@ def convert(Byte):
 @app.route('/api/v1/cpu_info')
 def cpu_info():
     cpuinfo = get_cpu_info()
-    cpuphysical = cpuinfo['count']/2
+    cpuphysical = psutil.cpu_count(logical=False)
     data = [ cpuinfo['brand'], cpuinfo['count'], cpuphysical]
 
     return jsonify(data)
@@ -69,6 +73,11 @@ def cpu_percent():
 def cpu_frequent ():
     cpuFrequent = psutil.cpu_freq()
     return jsonify(cpuFrequent)
+
+@app.route('/', defaults ={ 'path' : ''})
+@app.route('/<path:path>')
+def render_vue(path):
+    return render_template("index.html")
   
 if __name__ == '__main__':
     app.run(debug=True) 

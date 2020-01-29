@@ -71,15 +71,10 @@ export default {
       return cpuFreq
     }
   },
-  created () {
+  mounted () {
     this.get_cpuInfo()
     this.get_cpuPercent()
     this.get_cpuFrequent()
-  },
-  beforeUpdated () {
-    this.get_cpuPercent()
-    this.get_cpuFrequent()
   }
-
 }
 </script>
