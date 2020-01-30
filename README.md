@@ -4,7 +4,7 @@ Rpinfo is a basic web app of information for Raspberry Pi
 
 ## Installation
 
-ALT-H1 Prerequisites
+### Prerequisites
 
 
 - pip 20.x >=
