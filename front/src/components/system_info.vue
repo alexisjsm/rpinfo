@@ -21,7 +21,9 @@ import axios from 'axios'
 
 export default {
   name: 'SystemInfo',
-
+  props: {
+    host: String
+  },
   data () {
     return {
       system_info: null,
@@ -32,7 +34,7 @@ export default {
   methods: {
     get_infoSystem () {
       axios
-        .get('http://localhost:5000/api/v1/info_system')
+        .get(`${this.host}/api/v1/info_system`)
         .then(Response => (this.system_info = Response.data))
         .catch(error => console.log(error))
     }

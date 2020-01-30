@@ -2,32 +2,68 @@
 
 Rpinfo is a basic web app of information for Raspberry Pi
 
-## Required
+## Installation
 
-- python 3.6 >=
-- nodejs 12.4 >=
+ALT-H1 Prerequisites
+
+
+- pip 20.x >=
+- python 3.7 >=
+- nodejs 12.4 >=  
 - npm 13.6 >=
 
-### First time
+### First-time
 
-The dependencies install with following command: `pip install -r requirements.txt` or `pip3 install -r requirements.txt`.
+Install virtual_env:
 
-Then the **front** folder install nodejs dependecies with `npm install` and with  command `npm run build` for compiled.
+``` bash
+ pip install -r virtualenv
+```
+
+create virtualenv:
+
+``` bash
+ virtualenv env --python=python3
+```
+
+activate the virtualenv:
+
+``` bash
+~/env/bin/active
+```
+
+The dependencies install with following command: 
+
+``` bash
+pip install -r requirements.txt
+```
+
+Then the **front** folder install nodejs dependecies with:
+
+``` bash
+npm install
+```
+
+and build the app
+
+``` bash
+npm run build
+```
 
 When this's finish, run the server with command `python app.py` in the **back** folder.
 
-### To Have
+## Usage
 
 - System information
 - Disk information
 - CPU information
 
-### TODO
+## TODO
 
 - Translate all to English
 - Real-time CPU frequency
 - Ethernet information
 
-#### issues
+### issues
 
-    There is possible more issues it isn't know.
+> There is possible more issues it isn't know.

@@ -37,6 +37,10 @@
 <script>
 import axios from 'axios'
 export default {
+
+  props: {
+    host: String
+  },
   data () {
     return {
       cpu_info: null,
@@ -50,14 +54,14 @@ export default {
   methods: {
     get_cpuInfo () {
       axios
-        .get('http://localhost:5000/api/v1/cpu_info')
+        .get(`${this.host}/api/v1/cpu_info`)
         .then(Response => (this.cpu_info = Response.data))
         .catch(error => (console.log(error)))
     },
 
     async get_cpuPercent () {
       const cpuPerc = axios
-        .post('http://localhost:5000/api/v1/cpu_percent', { timeout: 1 })
+        .post(`${this.host}/api/v1/cpu_percent`, { timeout: 1 })
         .then(Response => (this.cpu_percent = Response.data))
         .catch(error => (console.log(error)))
       return cpuPerc
@@ -65,7 +69,7 @@ export default {
 
     async get_cpuFrequent () {
       const cpuFreq = axios
-        .post('http://localhost:5000/api/v1/cpu_frequent', { timeout: 1 })
+        .post(`${this.host}/api/v1/cpu_frequent`, { timeout: 1 })
         .then(Response => (this.cpu_frequent = Response.data))
         .catch(error => (console.log(error)))
       return cpuFreq

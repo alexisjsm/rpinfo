@@ -1,17 +1,13 @@
+import  config
 from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
-import platform, os, getpass, psutil, math, re, distro
+import platform, psutil, math, re, distro
 
-app = Flask(__name__,
-           static_folder = '../front/dist/static',
-            template_folder = '../front/dist/'
-           )
+app = Flask(__name__,static_folder='./templates/static')
 
 
 app.config['JSON_SORT_KEYS'] = False
-
-cors = CORS(app, resource = {r"/api/*":{"origins": "*"}})
 
 @app.route('/api/v1/info_system')
 def info_system():
@@ -80,5 +76,5 @@ def render_vue(path):
     return render_template("index.html")
   
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(host= config.url['HOST'], port= config.url['PORT']) 
 

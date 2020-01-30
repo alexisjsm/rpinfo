@@ -4,12 +4,12 @@
     <v-container>
       <v-row>
         <v-col>
-          <view-menu> </view-menu>
+          <view-menu></view-menu>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <view-main></view-main>
+          <view-main :host="host"></view-main>
         </v-col>
       </v-row>
     </v-container>
@@ -25,6 +25,11 @@ export default {
   components: {
     ViewMenu,
     ViewMain
+  },
+  data () {
+    return {
+      host: `${window.location.protocol}//${window.location.host}`
+    }
   }
 }
 </script>

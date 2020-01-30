@@ -3,15 +3,15 @@
         <v-container>
             <v-row>
                 <v-col >
-                    <system-info></system-info>
+                    <system-info :host="this.host"></system-info>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col lg="4">
-                    <info-disk></info-disk>
+                    <info-disk :host="this.host"></info-disk>
                 </v-col>
                 <v-col>
-                    <cpu-info></cpu-info>
+                    <cpu-info :host="this.host"></cpu-info>
                 </v-col>
             </v-row>
 
@@ -29,6 +29,10 @@ export default {
     SystemInfo,
     InfoDisk,
     CpuInfo
+  },
+
+  props: {
+    host: String
   }
 }
 </script>

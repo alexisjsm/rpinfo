@@ -33,8 +33,10 @@
 <script>
 import Axios from 'axios'
 export default {
-  name: 'InfoDisk',
 
+  props: {
+    host: String
+  },
   data () {
     return {
       disk_list: null,
@@ -54,14 +56,14 @@ export default {
   methods: {
     async get_DiskList () {
       const disklist = await Axios
-        .post('http://localhost:5000/api/v1/info_space_disk/', { timeout: 1 })
+        .post(`${this.host}/api/v1/info_space_disk/`, { timeout: 1 })
         .then(Response => (this.disk_list = Response.data))
         .catch(error => console.log(error))
       return disklist
     },
     async get_DiskInfo () {
       const disk = await Axios
-        .post('http://localhost:5000/api/v1/info_space_disk/disk',
+        .post(`${this.host}/api/v1/info_space_disk/disk`,
           {
             path: this.selectedDisk
           })
