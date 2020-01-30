@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      host: `${window.location.protocol}//${window.location.host}`
+      host: `http://localhost:5000`
     }
   }
 }

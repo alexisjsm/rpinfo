@@ -60,16 +60,18 @@ export default {
     },
 
     async get_cpuPercent () {
-      const cpuPerc = axios
-        .post(`${this.host}/api/v1/cpu_percent`, { timeout: 1 })
-        .then(Response => (this.cpu_percent = Response.data))
-        .catch(error => (console.log(error)))
+      const cpuPerc = setInterval(() => {
+        axios
+          .post(`${this.host}/api/v1/cpu_percent`)
+          .then(Response => (this.cpu_percent = Response.data))
+          .catch(error => (console.log(error)))
+      }, 1500)
       return cpuPerc
     },
 
     async get_cpuFrequent () {
       const cpuFreq = axios
-        .post(`${this.host}/api/v1/cpu_frequent`, { timeout: 1 })
+        .post(`${this.host}/api/v1/cpu_frequent`)
         .then(Response => (this.cpu_frequent = Response.data))
         .catch(error => (console.log(error)))
       return cpuFreq

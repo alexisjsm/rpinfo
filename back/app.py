@@ -6,6 +6,7 @@ import platform, psutil, math, re, distro
 
 app = Flask(__name__,static_folder='./templates/static')
 
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['JSON_SORT_KEYS'] = False
 
@@ -62,7 +63,7 @@ def cpu_info():
 
 @app.route('/api/v1/cpu_percent', methods=['POST'])
 def cpu_percent():
-    cpuPercent = [ psutil.cpu_percent(interval=1) ]
+    cpuPercent = [ psutil.cpu_percent(interval=1.5) ]
     return jsonify(cpuPercent)
 
 @app.route('/api/v1/cpu_frequent', methods=['POST'])
@@ -76,5 +77,5 @@ def render_vue(path):
     return render_template("index.html")
   
 if __name__ == '__main__':
-    app.run(host= config.url['HOST'], port= config.url['PORT']) 
+    app.run(debug=True) 
 
