@@ -4,7 +4,7 @@ Rpinfo is a basic web app of information for Raspberry Pi
 
 ## Installation
 
-ALT-H1 Prerequisites
+### Prerequisites
 
 
 - pip 20.x >=
@@ -29,7 +29,7 @@ create virtualenv:
 activate the virtualenv:
 
 ``` bash
-~/env/bin/active
+source ~/env/bin/active
 ```
 
 The dependencies install with following command: 
