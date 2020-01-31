@@ -1,3 +1,4 @@
 back/__pycache__
 back/templates
+.env
 .vscode 

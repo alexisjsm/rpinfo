@@ -37,12 +37,13 @@ def info_get_diskAll():
 def info_space_diskHD():
     diskmount = request.get_json()
     disk = psutil.disk_usage(diskmount['path'])
-    total = convert(disk[0])
-    used  = convert(disk[1])
-    free  = convert(disk[2])
-    percentage = str(disk[3]) + " %"
-    
-    data = {'Total': total, 'Used':used, 'Free': free, 'Percentage': percentage}
+    data = []
+    for d in disk:
+        if(type(d)==float):
+            data.append(str(d) + "%")
+        else:
+            data.append(convert(d))
+
     return jsonify(data)
 
 def convert(Byte):
@@ -63,13 +64,25 @@ def cpu_info():
 
 @app.route('/api/v1/cpu_percent', methods=['POST'])
 def cpu_percent():
-    cpuPercent = [ psutil.cpu_percent(interval=1.5) ]
+    cpuPercent = [ psutil.cpu_percent(interval=1) ]
     return jsonify(cpuPercent)
 
 @app.route('/api/v1/cpu_frequent', methods=['POST'])
 def cpu_frequent ():
     cpuFrequent = psutil.cpu_freq()
     return jsonify(cpuFrequent)
+
+@app.route('/api/v1/memory_info')
+def memory_info ():
+    data = psutil.virtual_memory()
+    ram  = []
+    print(len(data))
+    for r in range(0,5):
+        if(type(data[r]) == float):
+            ram.append(str(data[r]) + "%")
+        else:
+            ram.append(convert(data[r]))
+    return jsonify(ram)
 
 @app.route('/', defaults ={ 'path' : ''})
 @app.route('/<path:path>')
