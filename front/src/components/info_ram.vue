@@ -7,12 +7,19 @@
               </v-card-title>
                 <v-row align-content="center" justify="center">
                     <v-col v-for="(r,key) in ram" :key="key" cols="auto">
-                        <v-card-title>
+                      <v-card-title>
                             <h3 class="title">{{ramName[key]}}</h3>
-                        </v-card-title>
-                        <v-card-text>
-                            <p>{{r}}</p>
-                        </v-card-text>
+                      </v-card-title>
+                  <v-card-text>
+                      <div v-if="r.includes('%')" class="text-center">
+                        <v-progress-circular :value="r" color="yellow darken-1" size= "100" width="10">
+                          {{r}}
+                        </v-progress-circular>
+                      </div>
+                      <div v-else>
+                          <p> {{r}} </p>
+                        </div>
+                  </v-card-text>
                     </v-col>
                 </v-row>
             </v-container>
@@ -29,7 +36,7 @@ export default {
   data () {
     return {
       ram: null,
-      ramName: ['Total', 'Disponible', 'Porcentaje', 'En Uso', 'Libre']
+      ramName: ['Total', 'Disponible', 'Porcentaje', 'En uso', 'Libre']
     }
   },
   methods: {

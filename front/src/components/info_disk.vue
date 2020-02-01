@@ -11,7 +11,7 @@
                   </v-select>
               </v-col>
             <v-col align-self="center" cols="auto">
-                <v-btn text icon color="red" :loading="loading" @click="refresh">
+                <v-btn text icon color="green darken-1" :loading="loading" @click="refresh">
                   <v-icon>mdi-cached</v-icon>
                 </v-btn>
               </v-col>
@@ -25,7 +25,14 @@
                      <h3 class="title d-inline-block"> {{infoDiskName[key]}} </h3>
                     </v-card-title>
                   <v-card-text>
-                     <p> {{disco}} </p>
+                    <div v-if="disco.includes('%')" class="text-center">
+                      <v-progress-circular :value="disco" color="green darken-1" size= "100" width="10">
+                        {{disco}}
+                      </v-progress-circular>
+                    </div>
+                    <div v-else>
+                        <p> {{disco}} </p>
+                      </div>
                   </v-card-text>
               </v-col>
           </v-row>

@@ -16,14 +16,6 @@
             </v-col>
           </v-row>
           <v-row align-content="center" justify="center">
-            <v-col cols="auto">
-              <v-card-title>
-                <h3 class="title"> CPU % </h3>
-                </v-card-title>
-                <v-card-text>
-                  <p>{{cpu_percent[0]}}</p>
-                </v-card-text>
-              </v-col>
               <v-col v-for="(freq, name ) in cpu_frequent" :key="name" cols="auto">
                 <v-card-title>
                 <h3 class="title"> {{cpuFreqName[name]}}</h3>
@@ -32,7 +24,19 @@
                   <p>{{freq}}</p>
                 </v-card-text>
               </v-col>
-            </v-row>
+            <v-col cols="auto">
+              <v-card-title>
+                <h3 class="title">Porcentaje</h3>
+              </v-card-title>
+              <v-card-text>
+                <div class="text-center">
+                    <v-progress-circular :value="cpu_percent[0]" color="blue darken-1" size= "100" width="10">
+                        {{cpu_percent[0]}}%
+                    </v-progress-circular>
+                </div>
+              </v-card-text>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card>
     </div>
@@ -68,7 +72,7 @@ export default {
           .post(`${this.host}/api/v1/cpu_percent`)
           .then(Response => (this.cpu_percent = Response.data))
           .catch(error => (console.log(error)))
-      }, 1500)
+      }, 1000)
       return cpuPerc
     },
 
@@ -81,8 +85,8 @@ export default {
     }
   },
   mounted () {
-    this.get_cpuInfo()
     this.get_cpuPercent()
+    this.get_cpuInfo()
     this.get_cpuFrequent()
   }
 }

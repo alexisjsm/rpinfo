@@ -90,5 +90,5 @@ def render_vue(path):
     return render_template("index.html")
   
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(host=config.url['HOST'], port=config.url['PORT']) 
 

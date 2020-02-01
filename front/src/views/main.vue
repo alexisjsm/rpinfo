@@ -1,13 +1,13 @@
 <template>
     <v-content>
         <v-container>
-            <v-row>
-                <v-col >
+            <v-row align-content="center" justify="center">
+                <v-col>
                     <system-info :host="host"></system-info>
                 </v-col>
             </v-row>
             <v-row>
-                <v-col lg="4">
+                <v-col lg=4>
                     <info-disk :host="host"></info-disk>
                 </v-col>
                 <v-col>

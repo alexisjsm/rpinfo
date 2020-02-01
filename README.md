@@ -56,11 +56,11 @@ When this's finish, run the server with command `python app.py` in the **back** 
 - System information
 - Disk information
 - CPU information
+- RAM information
 
 ## TODO
 
 - Translate all to English
-- Real-time CPU frequency
 - Ethernet information
 
 ### issues
