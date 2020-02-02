@@ -2,7 +2,7 @@ import  config
 from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
-import platform, psutil, math, re, distro
+import platform, psutil, math, re, distro,subprocess
 
 app = Flask(__name__,static_folder='./templates/static')
 
@@ -72,6 +72,14 @@ def cpu_frequent ():
     cpuFrequent = psutil.cpu_freq()
     return jsonify(cpuFrequent)
 
+@app.route('/api/v1/cpu_temp')
+def cpu_temp():
+     arg = ['vcgencmd','measure_temp']
+     temp = subprocess.Popen(arg,stdout=subprocess.PIPE,stdin=subprocess.PIPE,encoding="utf8")
+     out, _ = temp.communicate()
+     data = out.split("=")
+     return  jsonify(data)
+
 @app.route('/api/v1/memory_info')
 def memory_info ():
     data = psutil.virtual_memory()
@@ -90,5 +98,5 @@ def render_vue(path):
     return render_template("index.html")
   
 if __name__ == '__main__':
-    app.run(host=config.url['HOST'], port=config.url['PORT']) 
+    app.run(host=config.url['HOST'], port='5000') 
 

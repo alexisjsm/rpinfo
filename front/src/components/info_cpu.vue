@@ -15,6 +15,21 @@
                 </v-card-text>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col align-self="center">
+              <v-sparkline
+              :fill="false"
+              :value="cpuTemp"
+              :gradient="colors"
+              :smooth="true"
+              line-width="2"
+              :radius="10"
+              :show-labels="true"
+              :auto-line-width="false"
+              >
+              </v-sparkline>
+            </v-col>
+          </v-row>
           <v-row align-content="center" justify="center">
               <v-col v-for="(freq, name ) in cpu_frequent" :key="name" cols="auto">
                 <v-card-title>
@@ -43,6 +58,7 @@
 </template>
 <script>
 import axios from 'axios'
+
 export default {
 
   props: {
@@ -54,8 +70,9 @@ export default {
       infoName: ['Procesador', 'CPU Logico', 'CPU Fisico'],
       cpu_percent: '',
       cpu_frequent: '',
-      cpuFreqName: ['Actual', 'Min', 'Max']
-
+      cpuFreqName: ['Actual', 'Min', 'Max'],
+      colors: ['#E53935', '#FB8C00', '#FFB300', '#FDD835', '#C0CA33', '#00ACC1', '#039BE5'],
+      cpuTemp: []
     }
   },
   methods: {
@@ -82,12 +99,23 @@ export default {
         .then(Response => (this.cpu_frequent = Response.data))
         .catch(error => (console.log(error)))
       return cpuFreq
+    },
+
+    async get_cpuTemp () {
+      const cpuTemp = setInterval(() => {
+        axios.get(`${this.host}/api/v1/cpu_temp`)
+          .then(Response => (this.cpuTemp.push(Response.data[1])))
+          .catch(error => (console.log(error)))
+      }, 2000)
+      return cpuTemp
     }
+
   },
   mounted () {
     this.get_cpuPercent()
     this.get_cpuInfo()
     this.get_cpuFrequent()
+    this.get_cpuTemp()
   }
 }
 </script>

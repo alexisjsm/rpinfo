@@ -1,6 +1,5 @@
 <template>
     <v-content>
-        <v-container>
             <v-row align-content="center" justify="center">
                 <v-col>
                     <system-info :host="host"></system-info>
@@ -19,8 +18,6 @@
                     <info-ram :host="host"></info-ram>
                 </v-col>
             </v-row>
-
-        </v-container>
     </v-content>
 
 </template>
