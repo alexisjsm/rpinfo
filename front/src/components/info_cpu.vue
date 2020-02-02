@@ -104,7 +104,7 @@ export default {
     async get_cpuTemp () {
       const cpuTemp = setInterval(() => {
         axios.get(`${this.host}/api/v1/cpu_temp`)
-          .then(Response => (this.cpuTemp.push(Response.data[1])))
+          .then(Response => (this.cpuTemp.push(Response.data)))
           .catch(error => (console.log(error)))
       }, 2000)
       return cpuTemp

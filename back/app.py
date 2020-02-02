@@ -77,8 +77,13 @@ def cpu_temp():
      arg = ['vcgencmd','measure_temp']
      temp = subprocess.Popen(arg,stdout=subprocess.PIPE,stdin=subprocess.PIPE,encoding="utf8")
      out, _ = temp.communicate()
-     data = out.split("=")
-     return  jsonify(data)
+     regx = r"^temp=|.['C]\n$"
+     data =  re.split(regx,out,re.MULTILINE)
+     number = float(data[1])
+     return jsonify(number)
+
+     
+     
 
 @app.route('/api/v1/memory_info')
 def memory_info ():
