@@ -1,20 +1,18 @@
 <template>
     <v-content>
-            <v-row align-content="center" justify="center">
-                <v-col>
+            <v-row align-content="center" justify="space-around">
+                <v-col lg=4 cols="auto">
                     <system-info :host="host"></system-info>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col lg=4>
-                    <info-disk :host="host"></info-disk>
-                </v-col>
-                <v-col>
+                <v-col lg=8 cols="auto">
                     <cpu-info :host="host"></cpu-info>
                 </v-col>
             </v-row>
-            <v-row>
-                <v-col>
+            <v-row align-content="center" justify="space-around">
+                <v-col lg=4 cols="auto">
+                    <info-disk :host="host"></info-disk>
+                </v-col>
+                <v-col lg=8 cols="auto">
                     <info-ram :host="host"></info-ram>
                 </v-col>
             </v-row>
