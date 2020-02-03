@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      host: 'http://192.168.1.104:5000'// `${window.location.protocol}//${window.location.host}`
+      host: `${window.location.protocol}//${window.location.host}` // 'http://192.168.1.104:5000'
     }
   }
 }
