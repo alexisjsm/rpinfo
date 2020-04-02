@@ -1,4 +1,3 @@
-import  config
 from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
@@ -102,6 +101,5 @@ def memory_info ():
 def render_vue(path):
     return render_template("index.html")
   
-if __name__ == '__main__':
-    app.run(host=config.url['HOST'], port=config.url['PORT']) 
+
 
