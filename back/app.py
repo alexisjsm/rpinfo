@@ -1,11 +1,11 @@
 from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
-import platform, psutil, math, re, distro,subprocess
+import platform,psutil,math,re,distro,subprocess
 
 app = Flask(__name__,static_folder='./templates/static')
 
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['JSON_SORT_KEYS'] = False
 
@@ -71,18 +71,15 @@ def cpu_frequent ():
     cpuFrequent = psutil.cpu_freq()
     return jsonify(cpuFrequent)
 
-@app.route('/api/v1/cpu_temp')
+@app.route('/api/v1/cpu_temp', methods=['POST'])
 def cpu_temp():
-     arg = ['vcgencmd','measure_temp']
-     temp = subprocess.Popen(arg,stdout=subprocess.PIPE,stdin=subprocess.PIPE,encoding="utf8")
-     out, _ = temp.communicate()
-     regx = r"^temp=|.['C]\n$"
-     data =  re.split(regx,out,re.MULTILINE)
-     number = float(data[1])
-     return jsonify(number)
-
-     
-     
+    arg = ['vcgencmd','measure_temp']
+    temp = subprocess.Popen(arg,stdout=subprocess.PIPE,stdin=subprocess.PIPE,encoding="utf8")
+    out, _ = temp.communicate()
+    regx = r"^temp=|.['C]\n$"
+    data =  re.split(regx,out,re.MULTILINE)
+    number = data[1]
+    return jsonify(number)
 
 @app.route('/api/v1/memory_info')
 def memory_info ():
