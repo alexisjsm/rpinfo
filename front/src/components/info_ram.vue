@@ -27,7 +27,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios'
 export default {
 
   props: {
@@ -35,24 +34,28 @@ export default {
   },
   data () {
     return {
-      ram: null,
-      ramName: ['Total', 'Disponible', 'Porcentaje', 'En uso', 'Libre']
+      ramName: ['Total', 'Disponible', 'Porcentaje', 'En uso', 'Libre'],
+      ramInterval: null
+    }
+  },
+  computed: {
+    ram () {
+      return this.$store.state.ram
     }
   },
   methods: {
-    async get_ram_info () {
-      const ram = setInterval(() => {
-        Axios
-          .get(`${this.host}/api/v1/memory_info`)
-          .then(Response => (this.ram = Response.data))
-          .catch(error => (console.log(error)))
-      }, 1000)
-      return ram
+    getRamInfo () {
+      this.ramInterval = setInterval(() => this.$store.dispatch('getRamInfo')
+        , 1000)
     }
   },
 
+  beforeDestroy () {
+    clearInterval(this.ramInterval)
+  },
+
   mounted () {
-    this.get_ram_info()
+    this.getRamInfo()
   }
 }
 </script>

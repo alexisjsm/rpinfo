@@ -1,11 +1,11 @@
 from flask import Flask, jsonify,request, render_template
 from flask_cors import CORS
 from cpuinfo import get_cpu_info
-import platform,psutil,math,re,distro,subprocess
+import platform,psutil,math,re,distro,subprocess, threading, queue
 
 app = Flask(__name__,static_folder='./templates/static')
 
-#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['JSON_SORT_KEYS'] = False
 
@@ -81,17 +81,20 @@ def cpu_temp():
     number = data[1]
     return jsonify(number)
 
-@app.route('/api/v1/memory_info')
-def memory_info ():
+@app.route('/api/v1/memory_info', methods=['POST'])
+def memory_info():
+  while True:
+      return jsonify(memory())
+
+def memory ():
     data = psutil.virtual_memory()
     ram  = []
-    print(len(data))
     for r in range(0,5):
         if(type(data[r]) == float):
             ram.append(str(data[r]) + "%")
         else:
             ram.append(convert(data[r]))
-    return jsonify(ram)
+    return ram
 
 @app.route('/', defaults ={ 'path' : ''})
 @app.route('/<path:path>')

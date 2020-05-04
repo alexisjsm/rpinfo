@@ -7,7 +7,7 @@
       </v-card-title>
           <v-row>
             <v-col align-self="center">
-                  <v-select label="Selecciona disco"  v-model="selectedDisk"  :items="disk_list" item-text="device" item-value="mountpoint">
+                  <v-select label="Selecciona disco"  v-model="selectedDisk"  :items="disklist" item-text="device" item-value="mountpoint">
                   </v-select>
               </v-col>
             <v-col align-self="center" cols="auto">
@@ -20,7 +20,7 @@
               <v-col v-if="msgerror" cols="auto">
                 <p>Disco no disponible </p>
               </v-col>
-              <v-col v-for="(disco,key) in disk_info_space" :key="key" cols="auto" v-else>
+              <v-col v-for="(disco,key) in diskInfo" :key="key" cols="auto" v-else>
                   <v-card-title>
                      <h3 class="title d-inline-block"> {{infoDiskName[key]}} </h3>
                     </v-card-title>
@@ -41,7 +41,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios'
 export default {
 
   props: {
@@ -49,10 +48,8 @@ export default {
   },
   data () {
     return {
-      disk_list: null,
       infoDiskName: ['Total', 'En uso', 'Libre', 'Porcentaje'],
       selectedDisk: '',
-      disk_info_space: null,
       msgerror: false,
       loading: false
     }
@@ -60,47 +57,37 @@ export default {
   watch: {
     selectedDisk: {
       handler () {
-        this.get_DiskInfo()
+        this.getdiskInfo()
       }
     },
     deep: true
   },
-  methods: {
-    async get_DiskList () {
-      const disklist = await Axios
-        .post(`${this.host}/api/v1/info_space_disk/`, { timeout: 1500 })
-        .then(Response => (this.disk_list = Response.data))
-        .catch(error => console.log(error))
-      return disklist
+  computed: {
+    disklist () {
+      return this.$store.state.diskList
     },
-    async get_DiskInfo () {
-      const disk = await Axios
-        .post(`${this.host}/api/v1/info_space_disk/disk`,
-          {
-            path: this.selectedDisk
-          }, { timeout: 1500 })
-        .then(Response => {
-          if (Response) {
-            this.msgerror = false
-            this.disk_info_space = Response.data
-          }
-        })
-        .catch(error => {
-          if (error) {
-            this.msgerror = true
-          }
-        })
-      return disk
+    diskInfo () {
+      return this.$store.state.diskInfo
+    }
+  },
+  methods: {
+    async getdiskInfo () {
+      let diskInfo = await this.$store.dispatch('getDiskInfo', this.selectedDisk)
+      console.log(diskInfo)
+    },
+    async getDistList () {
+      let diskList = await this.$store.dispatch('getDiskList')
+      console.log(diskList)
     },
     async refresh () {
       this.loading = true
-      const refresh = Promise.all([this.get_DiskList(), this.get_DiskInfo()])
+      const refresh = Promise.all([this.getDistList(), this.getdiskInfo()])
         .then(() => (this.loading = false))
       return refresh
     }
   },
   mounted () {
-    this.get_DiskList()
+    this.getDistList()
   }
 }
 </script>
