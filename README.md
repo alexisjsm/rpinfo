@@ -15,20 +15,23 @@ Rpinfo is a basic web app of information for Raspberry Pi
 
 Install virtual_env:
 
-``` bash
- pip install -r virtualenv
+``` bash 
+# debian / ubuntu
+apt install virtualenv python3-devel
+# fedora
+dnf install python3-virtualenv  python3-devel
 ```
 
-create virtualenv:
+Create virtualenv:
 
 ``` bash
- virtualenv env --python=python3
+ virtualenv .env --python=python3
 ```
 
 activate the virtualenv:
 
 ``` bash
-source ~/env/bin/active
+source ~/.env/bin/activate
 ```
 
 The dependencies install with following command:
@@ -37,7 +40,7 @@ The dependencies install with following command:
 pip install -r requirements.txt
 ```
 
-Then the **front** folder install nodejs dependecies with:
+Then the **front** folder install nodejs dependencies with:
 
 ``` bash
 npm install
@@ -49,7 +52,7 @@ and build the app
 npm run build
 ```
 
-When this's finish, run the server with command `python app.py` in the **back** folder.
+When this's finish, run the server with command `flask run` in the **back** folder.
 
 ## Usage
 
@@ -59,10 +62,10 @@ When this's finish, run the server with command `python app.py` in the **back** 
 - RAM information
 
 ## TODO
-
+- Make a install script
 - Translate all to English
 - Ethernet information
 
 ### issues
 
-> There is possible more issues it isn't know.
+> There is possible more issues it isn't known.
